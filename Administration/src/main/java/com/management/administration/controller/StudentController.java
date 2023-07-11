@@ -7,11 +7,12 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api")
+@CrossOrigin(origins = "http://localhost:4200/")
 public class StudentController {
     @Autowired
     StudentService studentService;
 
-    @PostMapping("/create")
+    @PostMapping()
     String enterTheStudentDetails(@RequestBody Student student){
 
         return studentService.addTheStudentDetails(student);
@@ -29,7 +30,7 @@ public class StudentController {
         return studentService.getTheStudentDetailsByName(firstName,secondName);
     }
 
-    @PutMapping("update/{email}/{phoneNo}")
+    @PutMapping("update/{email}/{phone}")
     String updateTheDetailsOfStudent(@PathVariable String email,@PathVariable String phone){
 
         return  studentService.updateTheDetailsOfStudent(email, phone);

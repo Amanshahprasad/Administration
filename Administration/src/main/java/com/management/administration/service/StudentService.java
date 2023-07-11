@@ -29,15 +29,15 @@ public class StudentService {
         return optional.get();
     }
 
-    public String updateTheDetailsOfStudent(String email,String phoneNo){
+    public String updateTheDetailsOfStudent(String email,String phone){
         Optional<Student> optional= studentRepository.findById(email);
 
             Student student= optional.get();
-            student.setPhoneNo(phoneNo);
+            student.setPhone(phone);
             studentRepository.saveAndFlush(student);
 
 
-      return "phoneNo has been updated successfully";
+      return "phone has been updated successfully";
     }
 
     public String deleteTheDetailsOfStudent(String firstName,String secondName){

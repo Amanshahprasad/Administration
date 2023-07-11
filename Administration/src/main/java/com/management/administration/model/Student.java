@@ -10,9 +10,11 @@ import lombok.Setter;
 @Entity
 public class Student {
     @Id
+    String username;
+    String password;
     String email;
     String firstName;
     String lastName;
-    String phoneNo;
+    String phone;
 
 }

@@ -1,6 +1,7 @@
 package com.management.administration.service;
 
 import com.management.administration.model.Student;
+import com.management.administration.model.UpdateUser;
 import com.management.administration.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,29 +24,29 @@ public class StudentService {
         return optional.get();
     }
 
-    public Student getTheStudentDetailsByEmail(String email){
-        Optional<Student> optional= studentRepository.findById(email);
-
+    public Student getTheStudentDetails(String username,String password){
+        Optional<Student> optional= Optional.ofNullable(studentRepository.findByUsernameAndPassword(username, password));
         return optional.get();
     }
 
-    public String updateTheDetailsOfStudent(String email,String phone){
-        Optional<Student> optional= studentRepository.findById(email);
+    public String updateTheDetailsOfStudent(UpdateUser updateUser){
+
+        Optional<Student> optional= studentRepository.findById(updateUser.getUsername());
 
             Student student= optional.get();
-            student.setPhone(phone);
+            student.setPhone(updateUser.getPhone());
             studentRepository.saveAndFlush(student);
 
 
       return "phone has been updated successfully";
     }
 
-    public String deleteTheDetailsOfStudent(String firstName,String secondName){
-        Optional<Student> optional= Optional.ofNullable(studentRepository.findByFirstNameAndLastName(firstName, secondName));
+    public void deleteTheDetailsOfStudent(String email){
+        //Optional<Student> optional= Optional.ofNullable(studentRepository.findByFirstNameAndLastName(email));
 
-            Student student= optional.get();
-            studentRepository.deleteById(student.getEmail());
 
-        return "details of student has been deleted";
+            studentRepository.deleteById(email);
+
+
     }
 }

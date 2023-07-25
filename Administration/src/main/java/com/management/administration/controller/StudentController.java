@@ -1,9 +1,13 @@
 package com.management.administration.controller;
 
 import com.management.administration.model.Student;
+import com.management.administration.model.UpdateUser;
+import com.management.administration.repository.StudentRepository;
 import com.management.administration.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
 
 @RestController
 @RequestMapping("/api")
@@ -11,36 +15,34 @@ import org.springframework.web.bind.annotation.*;
 public class StudentController {
     @Autowired
     StudentService studentService;
+    @Autowired
+    StudentRepository studentRepository;
 
-    @PostMapping()
+    @PostMapping("/create")
     String enterTheStudentDetails(@RequestBody Student student){
 
         return studentService.addTheStudentDetails(student);
     }
 
-    @GetMapping("fetchByEmail/{email}")
-    Student fetchTheStudentByEmail(@PathVariable String email){
+    @GetMapping("/fetchStudent/{username}/{password}")
+    Student fetchTheStudentByEmail(@PathVariable String username,@PathVariable String password){
 
-        return studentService.getTheStudentDetailsByEmail(email);
+        return studentService.getTheStudentDetails(username,password);
     }
 
-    @GetMapping("fetchByName/{firstName}/{secondName}")
-    Student fetchTheStudentByName(@PathVariable String firstName,@PathVariable String secondName){
 
-        return studentService.getTheStudentDetailsByName(firstName,secondName);
+    @PutMapping("/update/")
+    String updateTheDetailsOfStudent(@RequestBody UpdateUser updateUser){
+
+        return  studentService.updateTheDetailsOfStudent(updateUser);
     }
 
-    @PutMapping("update/{email}/{phone}")
-    String updateTheDetailsOfStudent(@PathVariable String email,@PathVariable String phone){
+    @DeleteMapping("delete/{username}")
+    void  removeTheDetailsOfStudent(@PathVariable String username){
 
-        return  studentService.updateTheDetailsOfStudent(email, phone);
+         studentRepository.deleteById(username);
     }
 
-    @DeleteMapping("delete/{firstName}/{secondName}")
-    String  removeTheDetailsOfStudent(@PathVariable String firstName,@PathVariable String secondName){
-
-        return studentService.deleteTheDetailsOfStudent(firstName, secondName);
-    }
 
 
 }
